@@ -15,5 +15,4 @@ Steps
     a. Hidden Singles
     b. Naked Singles
 4. Create UI for importing Soduku puzzle and finished output
-????
-5. Add image recognition support for importing.
+5. Add image recognition support for importing. ????
