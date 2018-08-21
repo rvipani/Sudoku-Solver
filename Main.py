@@ -5,6 +5,8 @@ Created on Wed Aug 15 22:38:27 2018
 @author: Rushan Vipani
 """
 
+import GameReader
+
 
 class Cell:
 
@@ -23,6 +25,8 @@ class Cell:
     def getValue(self):
         return self.value
 
+    def setValue(self, value):
+        self.value = value
 
 class Grid:
 
@@ -55,6 +59,15 @@ class Grid:
         tempgrid=[[self.getCell((x, y)) for x in range(1, 10)]for y in range(1, 10)]
         return tempgrid
 
+    # Sets the default grid based on the given 2d array
+    def setGrid(self, matrix):
+        pass
+
+    # Sets the value of a cell in a given location to the given value
+    def setCell(self, location, value):
+        cell = self.getCell(location)
+        cell.setValue(value)
+
     # Displays the current grid state in console
     def print(self):
         print("_________________________")
@@ -72,11 +85,12 @@ class Grid:
                 print("_________________________")
 
 
-def run():
-    pass
-    g= Grid()
+def run(problemFile):
+    g = Grid()
+    g.setGrid(GameReader.getGrid(problemFile))
     g.print()
 
 
 if __name__ == '_main__':
-    run()
+    problemFile="p1.txt"
+    run(problemFile)
