@@ -8,6 +8,8 @@ Created on Wed Aug 15 22:38:27 2018
 import GameReader
 
 
+dirprefix = "Puzzles/"
+
 class Cell:
 
     location = (0, 0)
@@ -69,14 +71,18 @@ class Grid:
         cell.setValue(value)
 
     # Displays the current grid state in console
-    def print(self):
+    def print(self, showzero = False):
         print("_________________________")
         for i in range(1, 10):
             if not i == 1:
                 print("|       |       |       |")
             print ("|", end=" ")
             for j in range(1, 10):
-                print(self.getCell((i, j)).getValue(), end=" ")
+                value = self.getCell((i, j)).getValue()
+                if value == 0 and showzero is False:
+                    print(" ", end=" ")
+                else:
+                    print(self.getCell((i, j)).getValue(), end=" ")
                 if j == 9:
                     print("|")
                 elif j % 3 == 0:
@@ -89,8 +95,9 @@ def run(problemFile):
     g = Grid()
     g.setGrid(GameReader.getGrid(problemFile))
     g.print()
+    #GameReader.getGridFromFile(problemFile)
 
 
-if __name__ == '_main__':
-    problemFile="p1.txt"
-    run(problemFile)
+if __name__ == '__main__':
+    problemFile = "p1.txt"
+    run(dirprefix + problemFile)

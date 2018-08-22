@@ -1,12 +1,13 @@
-def readFile(fileName):
-    text = ""
-    return text
-
-
-def generateGrid(text):
+def getGridFromFile(fileName):
+    file = open(fileName, "r")
     grid = []
+    for line in file:
+        #print(line)
+        split = line.split(" ")
+        temp = []
+        for value in split:
+            #print(value)
+            temp.append(int(value))
+        grid.append(temp)
+    print(grid)
     return grid
-
-def getGrid(fileName):
-    text = readFile(fileName)
-    return generateGrid(text)
