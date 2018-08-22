@@ -22,7 +22,7 @@ class Cell:
         self.location=location
 
     def setOriginal(self):
-        self.isOriginal=True
+        self.isOriginal = True
 
     def getValue(self):
         return self.value
@@ -44,6 +44,7 @@ class Grid:
         else:
             print(location)
             return None
+
     # Takes a location as a tuple in the form of (1-9,1-9) and returns a list for the Row
     def getRow(self, location):
         pass
@@ -63,7 +64,12 @@ class Grid:
 
     # Sets the default grid based on the given 2d array
     def setGrid(self, matrix):
-        pass
+        for i in range(1,10):
+            for j in range(1,10):
+                location = (i,j)
+                cell = self.getCell(location)
+                cell.setOriginal()
+                cell.setValue(matrix[i-1][j-1])
 
     # Sets the value of a cell in a given location to the given value
     def setCell(self, location, value):
@@ -93,7 +99,7 @@ class Grid:
 
 def run(problemFile):
     g = Grid()
-    g.setGrid(GameReader.getGrid(problemFile))
+    g.setGrid(GameReader.getGridFromFile(problemFile))
     g.print()
     #GameReader.getGridFromFile(problemFile)
 
