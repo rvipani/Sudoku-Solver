@@ -1,12 +1,11 @@
 # Sudoku-Solver
 
+###A Solver for Sudoku puzzles.
 ### Author Rushan Vipani
 ### Project Created 8/15/2018
 ### Last Update 8/15/2018
 
-A Solver for Sudoku puzzles.
-
-Steps
+###Steps
 
 1. Create Basic Structure of Project
 2. Add ability to import Sudoku puzzles as txt files.  
@@ -20,10 +19,11 @@ Steps
     1 0 0 2 0 0 0 9 0  
     5 1 0 0 0 0 4 0 3  
     8 4 0 7 0 5 0 0 1  
-    9 7 6 3 4 0 2 8 0  
-3. Add ability to solve Soduku puzzle and display result
+    9 7 6 3 4 0 2 8 0 
+3. Add ability to find possible values for each cell. 
+4. Add ability to solve Soduku puzzle and display result
     Include support for following solving strategies:  
     a. Hidden Singles  
     b. Naked Singles
-4. Create UI for importing Soduku puzzle and finished output
-5. Add image recognition support for importing. ????
+5. Create UI for importing Soduku puzzle and finished output
+6. Add image recognition support for easier importing. ????
