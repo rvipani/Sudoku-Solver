@@ -9,4 +9,5 @@ def getGridFromFile(fileName):
             temp.append(int(value))
         grid.append(temp)
     #print(grid)
+    file.close()
     return grid

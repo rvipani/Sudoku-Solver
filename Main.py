@@ -35,7 +35,7 @@ class Grid:
     # grid is 10x10 grid of cells with indices of numbers from 0 to 9
 
     def __init__(self):
-        self.grid=[[Cell((x,y)) for x in range(1, 10)]for y in range(1, 10)]
+        self.grid = [[Cell((x, y)) for x in range(1, 10)]for y in range(1, 10)]
 
     # Takes a location as a tuple in the form of (1-9,1-9) and returns the corresponding Cell
     def getCell(self, location):
@@ -98,12 +98,12 @@ class Grid:
 
 
 def run(problemFile):
+    problemFile = dirprefix + problemFile
     g = Grid()
     g.setGrid(GameReader.getGridFromFile(problemFile))
     g.print()
-    #GameReader.getGridFromFile(problemFile)
 
 
 if __name__ == '__main__':
     problemFile = "p1.txt"
-    run(dirprefix + problemFile)
+    run(problemFile)
