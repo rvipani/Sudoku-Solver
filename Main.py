@@ -64,12 +64,14 @@ class Grid:
 
     # Sets the default grid based on the given 2d array
     def setGrid(self, matrix):
-        for i in range(1,10):
-            for j in range(1,10):
-                location = (i,j)
-                cell = self.getCell(location)
-                cell.setOriginal()
-                cell.setValue(matrix[i-1][j-1])
+        for i in range(1, 10):
+            for j in range(1, 10):
+                value = matrix[i-1][j-1]
+                if not value == 0:
+                    location = (i, j)
+                    cell = self.getCell(location)
+                    cell.setOriginal()
+                    cell.setValue(matrix)
 
     # Sets the value of a cell in a given location to the given value
     def setCell(self, location, value):
@@ -78,7 +80,12 @@ class Grid:
 
     # Establishes the initial possible values for each open cell.
     def setPossibles(self):
-        pass
+        for i in range(1, 10):
+            for j in range(1, 10):
+                location = (i, j)
+                cell = self.getCell(location)
+                if not cell.isOriginal:
+                    print(location)
 
     # Displays the current grid state in console
     def print(self, showzero = False):
@@ -105,7 +112,8 @@ def run(problemFile):
     problemFile = dirprefix + problemFile
     g = Grid()
     g.setGrid(GameReader.getGridFromFile(problemFile))
-    g.print()
+    # g.print()
+    g.setPossibles()
 
 
 if __name__ == '__main__':
