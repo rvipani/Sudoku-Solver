@@ -5,6 +5,10 @@ Created on Wed Aug 15 22:38:27 2018
 @author: Rushan Vipani
 """
 
+import GameReader
+
+
+dirprefix = "Puzzles/"
 
 class Cell:
 
@@ -18,18 +22,20 @@ class Cell:
         self.location=location
 
     def setOriginal(self):
-        self.isOriginal=True
+        self.isOriginal = True
 
     def getValue(self):
         return self.value
 
+    def setValue(self, value):
+        self.value = value
 
 class Grid:
 
     # grid is 10x10 grid of cells with indices of numbers from 0 to 9
 
     def __init__(self):
-        self.grid=[[Cell((x,y)) for x in range(1, 10)]for y in range(1, 10)]
+        self.grid = [[Cell((x, y)) for x in range(1, 10)]for y in range(1, 10)]
 
     # Takes a location as a tuple in the form of (1-9,1-9) and returns the corresponding Cell
     def getCell(self, location):
@@ -38,6 +44,7 @@ class Grid:
         else:
             print(location)
             return None
+
     # Takes a location as a tuple in the form of (1-9,1-9) and returns a list for the Row
     def getRow(self, location):
         pass
@@ -55,15 +62,33 @@ class Grid:
         tempgrid=[[self.getCell((x, y)) for x in range(1, 10)]for y in range(1, 10)]
         return tempgrid
 
+    # Sets the default grid based on the given 2d array
+    def setGrid(self, matrix):
+        for i in range(1,10):
+            for j in range(1,10):
+                location = (i,j)
+                cell = self.getCell(location)
+                cell.setOriginal()
+                cell.setValue(matrix[i-1][j-1])
+
+    # Sets the value of a cell in a given location to the given value
+    def setCell(self, location, value):
+        cell = self.getCell(location)
+        cell.setValue(value)
+
     # Displays the current grid state in console
-    def print(self):
+    def print(self, showzero = False):
         print("_________________________")
         for i in range(1, 10):
             if not i == 1:
                 print("|       |       |       |")
             print ("|", end=" ")
             for j in range(1, 10):
-                print(self.getCell((i, j)).getValue(), end=" ")
+                value = self.getCell((i, j)).getValue()
+                if value == 0 and showzero is False:
+                    print(" ", end=" ")
+                else:
+                    print(self.getCell((i, j)).getValue(), end=" ")
                 if j == 9:
                     print("|")
                 elif j % 3 == 0:
@@ -72,11 +97,13 @@ class Grid:
                 print("_________________________")
 
 
-def run():
-    pass
-    g= Grid()
+def run(problemFile):
+    problemFile = dirprefix + problemFile
+    g = Grid()
+    g.setGrid(GameReader.getGridFromFile(problemFile))
     g.print()
 
 
-if __name__ == '_main__':
-    run()
+if __name__ == '__main__':
+    problemFile = "p1.txt"
+    run(problemFile)
