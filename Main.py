@@ -76,6 +76,10 @@ class Grid:
         cell = self.getCell(location)
         cell.setValue(value)
 
+    # Establishes the initial possible values for each open cell.
+    def setPossibles(self):
+        pass
+
     # Displays the current grid state in console
     def print(self, showzero = False):
         print("_________________________")
