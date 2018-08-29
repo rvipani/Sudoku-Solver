@@ -30,8 +30,11 @@ class Cell:
 
     def setValue(self, value):
         self.value = value
+
     def setPossibleValues(self, possibles):
         self.possibleValues=possibles
+
+
 class Grid:
 
     # grid is 10x10 grid of cells with indices of numbers from 0 to 8
@@ -70,6 +73,7 @@ class Grid:
         y = math.floor(location[1] / 3) * 3
         box = betterGrid[x:x+3, y:y+3]
         return list(box.flatten())
+
     # Returns the current grid as only a 2d array of values
     def get2dArrayForm(self):
         tempgrid=[[self.getCell((y, x)).getValue() for x in range(9)]for y in range(9)]
@@ -109,8 +113,7 @@ class Grid:
                         if not v==0 and v in possibles:
                             possibles.remove(v)
                     cell.setPossibleValues(possibles)
-                    print (location, possibles)
-                    
+
     # Displays the current grid state in console
     def print(self, showzero = False):
         print("_________________________")
@@ -136,8 +139,8 @@ def run(problemFile):
     problemFile = dirprefix + problemFile
     g = Grid()
     g.setGrid(GameReader.getGridFromFile(problemFile))
-    #g.print()
     g.setPossibles()
+    g.print()
 
 
 if __name__ == '__main__':

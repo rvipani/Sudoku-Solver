@@ -37,7 +37,7 @@ class MyTest(unittest.TestCase):
         self.assertEqual(correctBox, g.getBox((0, 0)))
         self.assertEqual(correctBox, g.getBox((2, 2)))
 
-    def testPossibles(self):
+    def testsetPossibles(self):
         problemFile = "Puzzles/p1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
