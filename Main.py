@@ -39,6 +39,7 @@ class Cell:
 
     def setValue(self, value):
         self.value = value
+        self.possibleValues = []
 
     def setPossibleValues(self, possibles):
         self.possibleValues=possibles
@@ -117,15 +118,16 @@ class Grid:
                 if not cell.isOriginal:
                     possibles=[1, 2, 3, 4, 5, 6, 7, 8, 9]
                     for v in self.getRow(location):
-                        if not v==0 and v in possibles:
+                        if not v == 0 and v in possibles:
                             possibles.remove(v)
                     for v in self.getColumn(location):
-                        if not v==0 and v in possibles:
+                        if not v == 0 and v in possibles:
                             possibles.remove(v)
                     for v in self.getBox(location):
-                        if not v==0 and v in possibles:
+                        if not v == 0 and v in possibles:
                             possibles.remove(v)
                     cell.setPossibleValues(possibles)
+                    # print(location, possibles)
 
     # Displays the current grid state in console
     def print(self, showzero = False):

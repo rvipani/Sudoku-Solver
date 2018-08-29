@@ -23,7 +23,8 @@
 3. Add ability to find possible values for each cell. 
 4. Add ability to solve Soduku puzzle and display result
     Include support for following solving strategies:  
-    a. Hidden Singles  
-    b. Naked Singles
+    a. Last Digit
+    b. Hidden Singles  
+    c. Naked Singles
 5. Create UI for importing Soduku puzzle and finished output
 6. Add image recognition support for easier importing. ????
