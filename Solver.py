@@ -10,10 +10,16 @@ import numpy as np
 class Solver:
 
     def solve(self, grid):
-        pass
-
+        while self.isUnsolved(grid):
+            self.lastDigit(grid)
+            grid.setPossibles()
+            
     def isUnsolved(self, grid):
-        pass
+        for i in range(9):
+            for j in range(9):
+                if grid.getCell((i,j)).getValue() == 0:
+                    return False
+        return True
 
     def lastDigit(self, grid):
         for i in range(9):

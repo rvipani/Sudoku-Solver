@@ -115,8 +115,12 @@ class Grid:
             for j in range(9):
                 location = (i, j)
                 cell = self.getCell(location)
-                if not cell.isOriginal:
-                    possibles=[1, 2, 3, 4, 5, 6, 7, 8, 9]
+                if cell.getValue() == 0:
+                    possibles = cell.possibleValues
+                    #Used when initializing
+                    if len(possibles) == 0:
+                        possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
                     for v in self.getRow(location):
                         if not v == 0 and v in possibles:
                             possibles.remove(v)
