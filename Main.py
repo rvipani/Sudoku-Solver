@@ -1,8 +1,12 @@
-# -*- coding: utf-8 -*-
+#Main.py
 """
 Created on Wed Aug 15 22:38:27 2018
 
 @author: Rushan Vipani
+
+This is the main python file for the project. Running from here will import the problem specified by the global
+variable fileName, solve the problem, and then print out the solution grid.
+This file also contains the key class used in the project: Cell and Grid
 """
 
 import GameReader
@@ -10,7 +14,12 @@ import numpy as np
 import math
 
 dirprefix = "Puzzles/"
+fileName = "p1.txt"
 
+"""
+The representation for an individual cell in the grid. Each cell contains its location, the value stored there, and a 
+list of possible values that that location could have if the cell is empty.
+"""
 class Cell:
 
     location = (0, 0)
@@ -35,9 +44,13 @@ class Cell:
         self.possibleValues=possibles
 
 
+"""
+This is the representation of the entire Sudoku board. The grid exists as a 2d matrix of cells. The grid can then be 
+initialized using setGrid(). 
+"""
 class Grid:
 
-    # grid is 10x10 grid of cells with indices of numbers from 0 to 8
+    # grid is 9x9 grid of cells with indices of numbers from 0 to 8
 
     def __init__(self):
         self.grid = [[Cell((x, y)) for x in range(9)]for y in range(9)]
@@ -135,8 +148,8 @@ class Grid:
                 print("_________________________")
 
 
-def run(problemFile):
-    problemFile = dirprefix + problemFile
+def run():
+    problemFile = dirprefix + fileName
     g = Grid()
     g.setGrid(GameReader.getGridFromFile(problemFile))
     g.setPossibles()
@@ -144,5 +157,4 @@ def run(problemFile):
 
 
 if __name__ == '__main__':
-    problemFile = "p1.txt"
-    run(problemFile)
+    run()

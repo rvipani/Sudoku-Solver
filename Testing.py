@@ -1,3 +1,8 @@
+#Testing.py
+"""
+Testing holds the unittest used to test the key functionality of the project.
+All unittests are held in the MyTest class
+"""
 import unittest
 import Main
 import GameReader
