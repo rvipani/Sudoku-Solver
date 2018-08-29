@@ -20,5 +20,5 @@ class Solver:
             for j in range(9):
                 cell = grid.getCell((i, j))
                 if len(cell.possibleValues) == 1:
-                    print((i, j), cell.possibleValues[0])
+                    #print((i, j), cell.possibleValues[0])
                     cell.setValue(cell.possibleValues[0])

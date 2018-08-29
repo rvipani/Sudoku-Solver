@@ -3,6 +3,8 @@ def getGridFromFile(fileName):
     file = open(fileName, "r")
     grid = []
     for line in file:
+        if "#" in line or "//" in line:
+            continue
         split = line.split(" ")
         temp = []
         for value in split:
