@@ -1,4 +1,10 @@
+# GameReader.py
+"""
 # Pulls from a file and turns the file into a grid. Grid format is 9x9 space delimited.
+# Lines with "#" or "//" are ignored when reading.
+"""
+
+
 def getGridFromFile(fileName):
     file = open(fileName, "r")
     grid = []
@@ -10,6 +16,6 @@ def getGridFromFile(fileName):
         for value in split:
             temp.append(int(value))
         grid.append(temp)
-    #print(grid)
+    # print(grid)
     file.close()
     return grid

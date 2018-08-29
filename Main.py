@@ -149,7 +149,7 @@ class Grid:
             if i % 3 == 2:
                 print("_________________________")
 
-
+# Runs the file
 def run():
     problemFile = dirprefix + fileName
     g = Grid()
