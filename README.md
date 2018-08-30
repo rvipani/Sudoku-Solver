@@ -3,7 +3,7 @@
 ###A Solver for Sudoku puzzles.
 ### Author Rushan Vipani
 ### Project Created 8/15/2018
-### Last Update 8/28/2018
+### Last Update 8/29/2018
 
 ###Steps
 
