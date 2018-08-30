@@ -54,18 +54,17 @@ class BasicTests(unittest.TestCase):
 
 
 class SolvingTests(unittest.TestCase):
-    def test_lastDigit(self):
+    def test_nakedSingle(self):
         problemFile = "Puzzles/p1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         g.setPossibles()
         s = Solver()
-        s.lastDigit(g)
+        s.nakedSingle(g)
         cell = g.getCell((0, 4))
         self.assertEqual(3, cell.getValue())
 
-    def test_lastDigitB(self):
-        self.assertEqual(1, 1)
+    def test_hiddenSingles(self):
 
 
 if __name__ == '__main__':
