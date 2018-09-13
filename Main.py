@@ -67,27 +67,30 @@ class Grid:
     # Takes a location as a tuple in the form of (0-8,0-8) and returns a list for the Row
     def getRow(self, location):
         rowOfCells = self.grid[location[0]]
-        tempRow = []
-        for cell in rowOfCells:
-            tempRow.append(cell.getValue())
-        return tempRow
+        return rowOfCells
 
     # Takes a location as a tuple in the form of (0-8,0-8) and returns a list for the Column
     def getColumn(self, location):
-        grid = self.get2dArrayForm()
-        betterGrid = np.array(grid)
-        temp = betterGrid[:, location[1]]
+        temp = []
+        for x in range(9):
+            temp.append(self.getCell((x, location[1])))
         return list(temp)
 
     # Takes a location as a tuple in the form of (0-8,0-8) and returns a list for the Box
     def getBox(self, location):
-        grid = self.get2dArrayForm()
-        betterGrid = np.array(grid)
+        # grid = self.get2dArrayForm()
+        betterGrid = np.array(self.grid)
         x = math.floor(location[0] / 3) * 3
         y = math.floor(location[1] / 3) * 3
         box = betterGrid[x:x+3, y:y+3]
         return list(box.flatten())
 
+    # Converts a list of cells to a list of
+    def cellsToVals(self, cellList):
+        tmp = []
+        for cell in cellList:
+            tmp.append(cell.getValue())
+        return tmp
     # Returns the current grid as only a 2d array of values
     def get2dArrayForm(self):
         tempgrid=[[self.getCell((y, x)).getValue() for x in range(9)]for y in range(9)]
@@ -109,7 +112,8 @@ class Grid:
         cell = self.getCell(location)
         cell.setValue(value)
 
-    # Establishes the initial possible values for each open cell.
+    # Updates the initial possible values for each open cell. If Cell is new, this function initializes the possible
+    # values.
     def setPossibles(self):
         for i in range(9):
             for j in range(9):
@@ -117,17 +121,19 @@ class Grid:
                 cell = self.getCell(location)
                 if cell.getValue() == 0:
                     possibles = cell.possibleValues
-                    #Used when initializing
+                    # Used when initializing
                     if len(possibles) == 0:
                         possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-                    for v in self.getRow(location):
+                    row = self.cellsToVals(self.getRow(location))
+                    column = self.cellsToVals(self.getColumn(location))
+                    box = self.cellsToVals(self.getBox(location))
+                    for v in row:
                         if not v == 0 and v in possibles:
                             possibles.remove(v)
-                    for v in self.getColumn(location):
+                    for v in column:
                         if not v == 0 and v in possibles:
                             possibles.remove(v)
-                    for v in self.getBox(location):
+                    for v in box:
                         if not v == 0 and v in possibles:
                             possibles.remove(v)
                     cell.setPossibleValues(possibles)
