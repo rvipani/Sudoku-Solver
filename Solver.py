@@ -60,7 +60,7 @@ class Solver:
                 cell = grid.getCell((i, j))
                 if len(cell.possibleValues) == 1:
                     # print((i, j), cell.possibleValues[0])
-                    cell.setValue(cell.possibleValues[0])
+                    grid.setCell((i, j), (cell.possibleValues[0]))
         if Main.DEBUG is True:
             grid.print()
 
@@ -82,7 +82,7 @@ class Solver:
                                 flag = True
                                 break
                     if flag is False:
-                        cell.setValue(value)
+                        grid.setCell((i, j), value)
                         break
         if Main.DEBUG is True:
             grid.print()

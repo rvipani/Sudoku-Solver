@@ -16,7 +16,7 @@ import Solver
 
 dirprefix = "Puzzles/"
 fileName = "p1.txt"
-DEBUG = True
+DEBUG = False
 """
 The representation for an individual cell in the grid. Each cell contains its location, the value stored there, and a 
 list of possible values that that location could have if the cell is empty.
@@ -28,9 +28,10 @@ class Cell:
     possibleValues = []
     isOriginal = False
 
-    def __init__(self, location):
+    def __init__(self, location, grid):
         self.value = 0
         self.location = location
+        self.grid = grid
 
     def setOriginal(self):
         self.isOriginal = True
@@ -57,7 +58,7 @@ class Grid:
     # grid is 9x9 grid of cells with indices of numbers from 0 to 8
 
     def __init__(self):
-        self.grid = [[Cell((x, y)) for y in range(9)]for x in range(9)]
+        self.grid = [[Cell((x, y), self) for y in range(9)]for x in range(9)]
 
     # Takes a location as a tuple in the form of (0-8,0-8) and returns the corresponding Cell
     def getCell(self, location):
@@ -112,9 +113,20 @@ class Grid:
                     cell.setValue(value)
 
     # Sets the value of a cell in a given location to the given value
+    # This is the function that must be used if setting a cell after grid has been initialized
     def setCell(self, location, value):
         cell = self.getCell(location)
         cell.setValue(value)
+        for othercell in self.getRow(location):
+            if value in othercell.possibleValues:
+                othercell.possibleValues.remove(value)
+        for othercell in self.getColumn(location):
+            if value in othercell.possibleValues:
+                othercell.possibleValues.remove(value)
+        for othercell in self.getBox(location):
+            if value in othercell.possibleValues:
+                othercell.possibleValues.remove(value)
+
 
     # Updates the initial possible values for each open cell. If Cell is new, this function initializes the possible
     # values.
@@ -172,7 +184,7 @@ def run():
     g.setPossibles()
     s = Solver.Solver()
     s.solve(g)
-    print(g)
+    g.print()
 
 if __name__ == '__main__':
     run()
