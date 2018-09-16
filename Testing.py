@@ -1,4 +1,4 @@
-#Testing.py
+# Testing.py
 """
 Testing holds the unittest used to test the key functionality of the project.
 All unittests are held in the MyTest class
@@ -55,6 +55,15 @@ class BasicTests(unittest.TestCase):
 
 
 class SolvingTests(unittest.TestCase):
+
+    def test_duplicateError(self):
+        problemFile = "Puzzles/p1.txt"
+        g = Main.Grid()
+        g.setGrid(GameReader.getGridFromFile(problemFile))
+        g.setCell((1, 3), 7)
+        g.print()
+        pass
+
     def test_nakedSingle(self):
         problemFile = "Puzzles/p1.txt"
         g = Main.Grid()
