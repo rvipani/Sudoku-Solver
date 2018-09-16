@@ -6,10 +6,11 @@ All unittests are held in the MyTest class
 import unittest
 import Main
 import GameReader
-from Solver import Solver
+import Solver
 
 
 class BasicTests(unittest.TestCase):
+    # 6 Test cases
     def test_gridSetup(self):
         g = Main.Grid()
         self.assertEqual(0, g.getCell((0, 0)).getValue())
@@ -55,21 +56,49 @@ class BasicTests(unittest.TestCase):
 
 
 class SolvingTests(unittest.TestCase):
-
-    def test_duplicateError(self):
+    #3 Test cases
+    def test_isUnsolved(self):
         problemFile = "Puzzles/p1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
+        s = Solver.Solver()
+
+        # Check for row duplicates
         g.setCell((1, 3), 7)
-        g.print()
-        pass
+        with self.assertRaises(Solver.DuplicateError) as cm:
+            s.isUnsolved(g)
+        exception = cm.exception
+        message = exception.message
+        self.assertEqual("Row 1 contains a duplicate", message)
+        g.setCell((1, 3), 0)
+
+        # Check for column duplicates
+        g.setCell((4, 0), 7)
+        with self.assertRaises(Solver.DuplicateError) as cm:
+            s.isUnsolved(g)
+        exception = cm.exception
+        message = exception.message
+        self.assertEqual("Column 0 contains a duplicate", message)
+        g.setCell((4, 0), 0)
+
+        # Check for box duplicates
+        g.setCell((1, 1), 8)
+        with self.assertRaises(Solver.DuplicateError) as cm:
+            s.isUnsolved(g)
+        exception = cm.exception
+        message = exception.message
+        self.assertEqual("Box 0 contains a duplicate", message)
+        g.setCell((1, 1), 0)
+
+        # Check that check for 0s works properly
+        self.assertTrue(s.isUnsolved(g))
 
     def test_nakedSingle(self):
         problemFile = "Puzzles/p1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         g.setPossibles()
-        s = Solver()
+        s = Solver.Solver()
         s.nakedSingle(g)
         cell = g.getCell((0, 4))
         self.assertEqual(3, cell.getValue())

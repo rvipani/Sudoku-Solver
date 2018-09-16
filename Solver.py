@@ -20,25 +20,29 @@ class Solver:
     def isUnsolved(self, grid):
         # check for duplicates to see if there are errors
         for i in range(9):
-            row = grid.getRow((i, 0))
+            row = grid.cellsToVals(grid.getRow((i, 0)))
             if self.hasDuplicates(row):
-                    pass
-            column = grid.getRow((0, i))
+                message = "Row " + str(i) + " contains a duplicate"
+                raise DuplicateError(message)
+            column = grid.cellsToVals(grid.getColumn((0, i)))
             if self.hasDuplicates(column):
-                pass
-            box = grid.getRow((i, 0))
+                message = "Column " + str(i) + " contains a duplicate"
+                raise DuplicateError(message)
+            box = grid.cellsToVals(grid.getBox((int(i/3), i % 3)))
             if self.hasDuplicates(box):
-                pass
+                message = "Box " + str(i) + " contains a duplicate"
+                raise DuplicateError(message)
+
         # If no errors, check that every cell is filled.
         for i in range(9):
             for j in range(9):
                 if grid.getCell((i, j)).getValue() == 0:
-                    return False
-
-        return True
+                    return True
+        return False
 
     def hasDuplicates(self, mylist):
-        while mylist.contains(0):
+        mylist = mylist
+        while 0 in mylist:
             mylist.remove(0)
         return len(mylist) != len(set(mylist))
 
