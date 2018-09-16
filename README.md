@@ -26,5 +26,7 @@
     Include support for following solving strategies:   
     a. Hidden Singles  
     b. Naked Singles
+    c.
+    d.
 5. Create UI for importing Soduku puzzle and finished output
 6. Add image recognition support for easier importing. ????

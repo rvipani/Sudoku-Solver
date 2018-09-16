@@ -6,16 +6,24 @@ solve the grid using all available strategies.
 import Main
 import numpy as np
 
+
 """
 Solver is used to perform all the actual solving of the puzzle. Solving loops repeatedly on the grid, using each of 
 the possible solving algorithms each iteration until the board is solved.
 """
 class Solver:
 
+    # Strategies are included in solve when they are completed
+    # Counter exists in case the puzzle is not solvable and needs to quit
     def solve(self, grid):
-        while self.isUnsolved(grid):
+        counter = 0
+        while self.isUnsolved(grid) and counter < 100:
             self.nakedSingle(grid)
+            self.hiddenSingle(grid)
             grid.setPossibles()
+            counter += 1
+            if Main.DEBUG is True:
+                grid.print()
 
     def isUnsolved(self, grid):
         # check for duplicates to see if there are errors
@@ -46,7 +54,6 @@ class Solver:
             mylist.remove(0)
         return len(mylist) != len(set(mylist))
 
-
     def nakedSingle(self, grid):
         for i in range(9):
             for j in range(9):
@@ -54,11 +61,31 @@ class Solver:
                 if len(cell.possibleValues) == 1:
                     # print((i, j), cell.possibleValues[0])
                     cell.setValue(cell.possibleValues[0])
+        if Main.DEBUG is True:
+            grid.print()
 
     def hiddenSingle(self, grid):
         for i in range(9):
             for j in range(9):
                 cell = grid.getCell((i, j))
+                possibleValues = cell.possibleValues
+                for value in possibleValues:
+                    # For each of the possible values of the cell, we want to check if that value only exists once
+                    # in that house
+                    # Check row
+                    flag = False
+                    row = grid.getRow(cell.location)
+                    for othercell in row:
+                        if othercell != cell:
+                            otherPVs = othercell.possibleValues
+                            if value in otherPVs:
+                                flag = True
+                                break
+                    if flag is False:
+                        cell.setValue(value)
+                        break
+        if Main.DEBUG is True:
+            grid.print()
 
 
 """

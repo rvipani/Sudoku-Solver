@@ -12,10 +12,11 @@ This file also contains the key class used in the project: Cell and Grid
 import GameReader
 import numpy as np
 import math
+import Solver
 
 dirprefix = "Puzzles/"
 fileName = "p1.txt"
-
+DEBUG = True
 """
 The representation for an individual cell in the grid. Each cell contains its location, the value stored there, and a 
 list of possible values that that location could have if the cell is empty.
@@ -42,8 +43,10 @@ class Cell:
         self.possibleValues = []
 
     def setPossibleValues(self, possibles):
-        self.possibleValues=possibles
+        self.possibleValues = possibles
 
+    def __eq__(self, other):
+        return self.location[0] == other.location[0] and self.location[1] == other.location[1]
 
 """
 This is the representation of the entire Sudoku board. The grid exists as a 2d matrix of cells. The grid can then be 
@@ -54,7 +57,7 @@ class Grid:
     # grid is 9x9 grid of cells with indices of numbers from 0 to 8
 
     def __init__(self):
-        self.grid = [[Cell((x, y)) for x in range(9)]for y in range(9)]
+        self.grid = [[Cell((x, y)) for y in range(9)]for x in range(9)]
 
     # Takes a location as a tuple in the form of (0-8,0-8) and returns the corresponding Cell
     def getCell(self, location):
@@ -91,6 +94,7 @@ class Grid:
         for cell in cellList:
             tmp.append(cell.getValue())
         return tmp
+
     # Returns the current grid as only a 2d array of values
     def get2dArrayForm(self):
         tempgrid=[[self.getCell((y, x)).getValue() for x in range(9)]for y in range(9)]
@@ -137,10 +141,11 @@ class Grid:
                         if not v == 0 and v in possibles:
                             possibles.remove(v)
                     cell.setPossibleValues(possibles)
-                    # print(location, possibles)
+                    if DEBUG is True:
+                        print(location, possibles)
 
     # Displays the current grid state in console
-    def print(self, showzero = False):
+    def print(self, showzero=False):
         print("_________________________")
         for i in range(9):
             if not i % 3 == 0:
@@ -158,15 +163,16 @@ class Grid:
                     print("|", end=" ")
             if i % 3 == 2:
                 print("_________________________")
-
+        print()
 # Runs the file
 def run():
     problemFile = dirprefix + fileName
     g = Grid()
     g.setGrid(GameReader.getGridFromFile(problemFile))
     g.setPossibles()
-    g.print()
-
+    s = Solver.Solver()
+    s.solve(g)
+    print(g)
 
 if __name__ == '__main__':
     run()

@@ -104,7 +104,15 @@ class SolvingTests(unittest.TestCase):
         self.assertEqual(3, cell.getValue())
 
     def test_hiddenSingles(self):
-        pass
+        problemFile = "Puzzles/p2.txt"
+        g = Main.Grid()
+        g.setGrid(GameReader.getGridFromFile(problemFile))
+        g.setPossibles()
+        s = Solver.Solver()
+        s.hiddenSingle(g)
+        cell = g.getCell((2, 3))
+        self.assertEqual(6, cell.getValue())
+
 
 if __name__ == '__main__':
     unittest.main()
