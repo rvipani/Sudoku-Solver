@@ -24,6 +24,8 @@ class Solver:
             counter += 1
             if Main.DEBUG is True:
                 grid.print()
+        if counter == 100:
+            print("Unable to solve this puzzle")
 
     def isUnsolved(self, grid):
         # check for duplicates to see if there are errors

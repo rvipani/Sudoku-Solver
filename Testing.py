@@ -56,7 +56,7 @@ class BasicTests(unittest.TestCase):
 
 
 class SolvingTests(unittest.TestCase):
-    #3 Test cases
+    # 3 Test cases
     def test_isUnsolved(self):
         problemFile = "Puzzles/p1.txt"
         g = Main.Grid()

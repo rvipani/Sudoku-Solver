@@ -13,6 +13,7 @@ import GameReader
 import numpy as np
 import math
 import Solver
+import sys
 
 dirprefix = "Puzzles/"
 fileName = "p1.txt"
@@ -177,8 +178,11 @@ class Grid:
                 print("_________________________")
         print()
 # Runs the file
-def run():
-    problemFile = dirprefix + fileName
+def run(argv):
+    if len(argv) == 1:
+        problemFile = dirprefix + fileName
+    else:
+        problemFile = argv[1]
     g = Grid()
     g.setGrid(GameReader.getGridFromFile(problemFile))
     g.setPossibles()
@@ -187,4 +191,4 @@ def run():
     g.print()
 
 if __name__ == '__main__':
-    run()
+    run(sys.argv)
