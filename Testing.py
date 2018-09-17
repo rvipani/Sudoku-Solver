@@ -113,6 +113,22 @@ class SolvingTests(unittest.TestCase):
         cell = g.getCell((2, 3))
         self.assertEqual(6, cell.getValue())
 
+    def test_pointing(self):
+        problemFile = "Puzzles/p3.txt"
+        g = Main.Grid()
+        g.setGrid(GameReader.getGridFromFile(problemFile))
+        g.setPossibles()
+        s = Solver.Solver()
+        self.assertEqual([3, 5], g.getCell((2, 6)).possibleValues)
+        s.lockedCandidate(g)
+        # self.assertEqual([3], g.getCell((2, 6)).possibleValues)
+
+    def test_claiming(self):
+        problemFile = "Puzzles/p4.txt"
+        g = Main.Grid()
+        g.setGrid(GameReader.getGridFromFile(problemFile))
+        g.setPossibles()
+        s = Solver.Solver()
 
 if __name__ == '__main__':
     unittest.main()

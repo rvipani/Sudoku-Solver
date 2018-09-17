@@ -38,7 +38,7 @@ class Solver:
             if self.hasDuplicates(column):
                 message = "Column " + str(i) + " contains a duplicate"
                 raise DuplicateError(message)
-            box = grid.cellsToVals(grid.getBox((int(i/3), i % 3)))
+            box = grid.cellsToVals(grid.getBox((int(i/3), (i % 3) * 3)))
             if self.hasDuplicates(box):
                 message = "Box " + str(i) + " contains a duplicate"
                 raise DuplicateError(message)
@@ -89,7 +89,23 @@ class Solver:
         if Main.DEBUG is True:
             grid.print()
 
+    def lockedCandidate(self, grid):
+        # Handle Pointing first by iterating through box, then check each digit 1-9 in each box to see if the box
+        # has any pointing
+        for i in range(9):
+            box = grid.getBox((int(i/3), (i % 3) * 3))
+            for digit in range(1, 10):
+                temp = []
+                for cell in box:
+                    if digit in cell.possibleValues:
+                        temp.append(cell)
+                flag = True
 
+                for cell in temp:
+
+
+    def hiddenSubset(self, grid):
+        pass
 """
 DuplicateError error is used if the solver accidentally ever puts a number twice in the same row, column or box.
 """

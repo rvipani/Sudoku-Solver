@@ -177,6 +177,7 @@ class Grid:
             if i % 3 == 2:
                 print("_________________________")
         print()
+
 # Runs the file
 def run(argv):
     if len(argv) == 1:
@@ -189,6 +190,7 @@ def run(argv):
     s = Solver.Solver()
     s.solve(g)
     g.print()
+
 
 if __name__ == '__main__':
     run(sys.argv)
