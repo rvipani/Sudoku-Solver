@@ -102,10 +102,12 @@ class Solver:
                 flag = True
 
                 for cell in temp:
-
+                    pass
 
     def hiddenSubset(self, grid):
         pass
+
+
 """
 DuplicateError error is used if the solver accidentally ever puts a number twice in the same row, column or box.
 """
