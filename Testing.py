@@ -121,7 +121,7 @@ class SolvingTests(unittest.TestCase):
         s = Solver.Solver()
         self.assertEqual([3, 5], g.getCell((2, 6)).possibleValues)
         s.lockedCandidate(g)
-        # self.assertEqual([3], g.getCell((2, 6)).possibleValues)
+        self.assertEqual([3], g.getCell((2, 6)).possibleValues)
 
     def test_claiming(self):
         problemFile = "Puzzles/p4.txt"

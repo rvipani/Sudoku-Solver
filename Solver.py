@@ -38,7 +38,7 @@ class Solver:
             if self.hasDuplicates(column):
                 message = "Column " + str(i) + " contains a duplicate"
                 raise DuplicateError(message)
-            box = grid.cellsToVals(grid.getBox((int(i/3), (i % 3) * 3)))
+            box = grid.cellsToVals(grid.getBox((int(i/3) * 3, (i % 3) * 3)))
             if self.hasDuplicates(box):
                 message = "Box " + str(i) + " contains a duplicate"
                 raise DuplicateError(message)
@@ -74,10 +74,38 @@ class Solver:
                 for value in possibleValues:
                     # For each of the possible values of the cell, we want to check if that value only exists once
                     # in that house
+
+                    # Flag represents weather or not another cell also contains that value
                     # Check row
                     flag = False
-                    row = grid.getRow(cell.location)
-                    for othercell in row:
+                    house = grid.getRow(cell.location)
+                    for othercell in house:
+                        if othercell != cell:
+                            otherPVs = othercell.possibleValues
+                            if value in otherPVs:
+                                flag = True
+                                break
+                    if flag is False:
+                        grid.setCell((i, j), value)
+                        break
+
+                    # Check column
+                    flag = False
+                    house = grid.getColumn(cell.location)
+                    for othercell in house:
+                        if othercell != cell:
+                            otherPVs = othercell.possibleValues
+                            if value in otherPVs:
+                                flag = True
+                                break
+                    if flag is False:
+                        grid.setCell((i, j), value)
+                        break
+
+                    # Check box
+                    flag = False
+                    house = grid.getBox(cell.location)
+                    for othercell in house:
                         if othercell != cell:
                             otherPVs = othercell.possibleValues
                             if value in otherPVs:
@@ -93,17 +121,46 @@ class Solver:
         # Handle Pointing first by iterating through box, then check each digit 1-9 in each box to see if the box
         # has any pointing
         for i in range(9):
-            box = grid.getBox((int(i/3), (i % 3) * 3))
+            box = grid.getBox((int(i/3) * 3, (i % 3) * 3))
             for digit in range(1, 10):
                 temp = []
                 for cell in box:
                     if digit in cell.possibleValues:
                         temp.append(cell)
+                if len(temp) == 0:
+                    continue
                 flag = True
-
-                for cell in temp:
-                    pass
-
+                # Check if each cell is in the same row
+                for j in range(len(temp)-1):
+                    locationOne = temp[j].location
+                    locationTwo = temp[j+1].location
+                    if locationOne[0] != locationTwo[0]:
+                        flag = False
+                        break
+                if flag is True:
+                    # Remove that digit from the entire row.
+                    row = grid.getRow(temp[0].location)
+                    for cell in row:
+                        pvs = cell.possibleValues
+                        if cell not in box and digit in pvs:
+                            pvs.remove(digit)
+                flag = True
+                # Check if each cell is in the same row
+                for j in range(len(temp) - 1):
+                    locationOne = temp[j].location
+                    locationTwo = temp[j + 1].location
+                    if locationOne[0] != locationTwo[0]:
+                        flag = False
+                        break
+                if flag is True:
+                    # Remove that digit from the entire row.
+                    row = grid.getRow(temp[0].location)
+                    for cell in row:
+                        pvs = cell.possibleValues
+                        if cell not in box and digit in pvs:
+                            pvs.remove(digit)
+        if Main.DEBUG is True:
+            grid.print()
     def hiddenSubset(self, grid):
         pass
 

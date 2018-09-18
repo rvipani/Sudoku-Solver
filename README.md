@@ -1,11 +1,11 @@
 # Sudoku-Solver
 
-###A Solver for Sudoku puzzles.
+### A Solver for Sudoku puzzles.
 ### Author Rushan Vipani
 ### Project Created 8/15/2018
-### Last Update 9/16/2018
+### Last Update 9/17/2018
 
-###Steps
+### Steps
 
 1. Create Basic Structure of Project
 2. Add ability to import Sudoku puzzles as txt files.  
