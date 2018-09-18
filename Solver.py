@@ -129,56 +129,94 @@ class Solver:
                         temp.append(cell)
                 if len(temp) == 0:
                     continue
-                flag = True
-                # Check if each cell is in the same row
-                for j in range(len(temp)-1):
-                    locationOne = temp[j].location
-                    locationTwo = temp[j+1].location
-                    if locationOne[0] != locationTwo[0]:
-                        flag = False
-                        break
-                if flag is True:
+
+                # Check if each cell with that digit is in the same row
+                if self.inSameRow(temp):
                     # Remove that digit from the entire row.
                     row = grid.getRow(temp[0].location)
                     for cell in row:
                         pvs = cell.possibleValues
                         if cell not in box and digit in pvs:
                             pvs.remove(digit)
-                flag = True
-                # Check if each cell is in the same row
-                for j in range(len(temp) - 1):
-                    locationOne = temp[j].location
-                    locationTwo = temp[j + 1].location
-                    if locationOne[0] != locationTwo[0]:
-                        flag = False
-                        break
-                if flag is True:
-                    # Remove that digit from the entire row.
-                    row = grid.getRow(temp[0].location)
-                    for cell in row:
-                        pvs = cell.possibleValues
-                        if cell not in box and digit in pvs:
-                            pvs.remove(digit)
-                # Check if each cell is in the same column
-                for j in range(len(temp) - 1):
-                    locationOne = temp[j].location
-                    locationTwo = temp[j + 1].location
-                    if locationOne[1] != locationTwo[1]:
-                        flag = False
-                        break
-                if flag is True:
+
+                # Check if each cell with that digit is in the same column
+                elif self.inSameCol(temp):
                     # Remove that digit from the entire row.
                     column = grid.getColumn(temp[0].location)
                     for cell in column:
                         pvs = cell.possibleValues
                         if cell not in box and digit in pvs:
                             pvs.remove(digit)
+
+        #Handle Claiming checking rows first
+        for i in range(9):
+            house = grid.getRow((i, 0))
+            for digit in range(1, 10):
+                temp = []
+                for cell in house:
+                    if digit in cell.possibleValues:
+                        temp.append(cell)
+                if len(temp) == 0:
+                    continue
+                if self.inSameBox(temp):
+                    # Remove that digit from the entire Box.
+                    box = grid.getBox(temp[0].location)
+                    for cell in box:
+                        pvs = cell.possibleValues
+                        if cell not in house and digit in pvs:
+                            pvs.remove(digit)
+        # Handle Claiming checking columns next
+        for i in range(9):
+            house = grid.getColumn((i, 0))
+            for digit in range(1, 10):
+                temp = []
+                for cell in house:
+                    if digit in cell.possibleValues:
+                        temp.append(cell)
+                if len(temp) == 0:
+                    continue
+                if self.inSameBox(temp):
+                    # Remove that digit from the entire Box.
+                    box = grid.getBox(temp[0].location)
+                    for cell in box:
+                        pvs = cell.possibleValues
+                        if cell not in house and digit in pvs:
+                            pvs.remove(digit)
+
         if Main.DEBUG is True:
             grid.print()
+
     def hiddenSubset(self, grid):
         pass
 
+    # Helper function to determine if a set of cells all belong to the same row.
+    def inSameRow(self, myList):
+        for i in range(len(myList) - 1):
+            loc1 = myList[i].location
+            loc2 = myList[i + 1].location
+            if loc1[0] != loc2[0]:
+                return False
+        return True
 
+    # Helper function to determine if a set of cells all belong to the same column.
+    def inSameCol(self, myList):
+        for i in range(len(myList) - 1):
+            loc1 = myList[i].location
+            loc2 = myList[i + 1].location
+            if loc1[1] != loc2[1]:
+                return False
+        return True
+
+    # Helper function to determine if a set of cells all belong to the same box.
+    def inSameBox(self, myList):
+        for i in range(len(myList) - 1):
+            loc1 = myList[i].location
+            loc2 = myList[i + 1].location
+            x1, x2 = loc1[0], loc2[0]
+            y1, y2 = loc1[1], loc2[1]
+            if int(x1/3) == int(x2/3) and int(x1/3) == int(x2/3):
+                return False
+        return True
 """
 DuplicateError error is used if the solver accidentally ever puts a number twice in the same row, column or box.
 """

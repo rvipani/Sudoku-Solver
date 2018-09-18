@@ -176,6 +176,7 @@ class Grid:
                 print("_________________________")
         print()
 
+
 # Runs the file
 def run(argv):
     if len(argv) == 1:
