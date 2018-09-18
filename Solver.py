@@ -159,6 +159,20 @@ class Solver:
                         pvs = cell.possibleValues
                         if cell not in box and digit in pvs:
                             pvs.remove(digit)
+                # Check if each cell is in the same column
+                for j in range(len(temp) - 1):
+                    locationOne = temp[j].location
+                    locationTwo = temp[j + 1].location
+                    if locationOne[1] != locationTwo[1]:
+                        flag = False
+                        break
+                if flag is True:
+                    # Remove that digit from the entire row.
+                    column = grid.getColumn(temp[0].location)
+                    for cell in column:
+                        pvs = cell.possibleValues
+                        if cell not in box and digit in pvs:
+                            pvs.remove(digit)
         if Main.DEBUG is True:
             grid.print()
     def hiddenSubset(self, grid):
