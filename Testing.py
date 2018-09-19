@@ -120,7 +120,7 @@ class SolvingTests(unittest.TestCase):
         g.setPossibles()
         s = Solver.Solver()
         self.assertEqual([3, 5], g.getCell((2, 6)).possibleValues)
-        s.lockedCandidate(g)
+        s.pointing(g)
         self.assertEqual([3], g.getCell((2, 6)).possibleValues)
 
     def test_claiming(self):
@@ -129,6 +129,9 @@ class SolvingTests(unittest.TestCase):
         g.setGrid(GameReader.getGridFromFile(problemFile))
         g.setPossibles()
         s = Solver.Solver()
+        self.assertEqual([4, 7], g.getCell((2, 1)).possibleValues)
+        s.claiming(g)
+        self.assertEqual([4], g.getCell((2, 1)).possibleValues)
 
 if __name__ == '__main__':
     unittest.main()

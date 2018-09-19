@@ -20,12 +20,14 @@ class Solver:
         while self.isUnsolved(grid) and counter < 100:
             self.nakedSingle(grid)
             self.hiddenSingle(grid)
-            grid.setPossibles()
+            self.lockedCandidate(grid)
             counter += 1
             if Main.DEBUG is True:
                 grid.print()
-        if counter == 100:
+        if self.isUnsolved(grid):
             print("Unable to solve this puzzle")
+        else:
+            print("Done")
 
     def isUnsolved(self, grid):
         # check for duplicates to see if there are errors
@@ -118,10 +120,13 @@ class Solver:
             grid.print()
 
     def lockedCandidate(self, grid):
+        self.pointing(grid)
+        self.claiming(grid)
+    def pointing(self, grid):
         # Handle Pointing first by iterating through box, then check each digit 1-9 in each box to see if the box
         # has any pointing
         for i in range(9):
-            box = grid.getBox((int(i/3) * 3, (i % 3) * 3))
+            box = grid.getBox((int(i / 3) * 3, (i % 3) * 3))
             for digit in range(1, 10):
                 temp = []
                 for cell in box:
@@ -147,8 +152,11 @@ class Solver:
                         pvs = cell.possibleValues
                         if cell not in box and digit in pvs:
                             pvs.remove(digit)
+        if Main.DEBUG is True:
+            grid.print()
 
-        #Handle Claiming checking rows first
+    def claiming(self, grid):
+        # Handle Claiming checking rows first
         for i in range(9):
             house = grid.getRow((i, 0))
             for digit in range(1, 10):
@@ -182,7 +190,6 @@ class Solver:
                         pvs = cell.possibleValues
                         if cell not in house and digit in pvs:
                             pvs.remove(digit)
-
         if Main.DEBUG is True:
             grid.print()
 
@@ -214,9 +221,11 @@ class Solver:
             loc2 = myList[i + 1].location
             x1, x2 = loc1[0], loc2[0]
             y1, y2 = loc1[1], loc2[1]
-            if int(x1/3) == int(x2/3) and int(x1/3) == int(x2/3):
+            if int(x1/3) != int(x2/3) or int(y1/3) != int(y2/3):
                 return False
         return True
+
+
 """
 DuplicateError error is used if the solver accidentally ever puts a number twice in the same row, column or box.
 """
