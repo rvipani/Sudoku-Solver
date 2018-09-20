@@ -175,7 +175,7 @@ class Solver:
                             pvs.remove(digit)
         # Handle Claiming checking columns next
         for i in range(9):
-            house = grid.getColumn((i, 0))
+            house = grid.getColumn((0, i))
             for digit in range(1, 10):
                 temp = []
                 for cell in house:
