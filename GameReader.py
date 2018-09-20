@@ -15,7 +15,20 @@ def getGridFromFile(fileName):
         temp = []
         for value in split:
             temp.append(int(value))
+        if len(temp) != 9:
+            message = "The inputted problem does not contain 9 columns"
+            raise InputError(message)
         grid.append(temp)
-    # print(grid)
     file.close()
+    if len(grid) != 9:
+        message = "The inputted problem does not contain 9 rows"
+        raise InputError(message)
     return grid
+
+
+"""
+InputGrid Error is used if the file inputted to the grid is not a 9x9 since that is the only grid size supported. 
+"""
+class InputError(Exception):
+    def __init__(self, message):
+        self.message = message
