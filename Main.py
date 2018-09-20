@@ -16,7 +16,7 @@ import Solver
 import sys
 
 dirprefix = "Puzzles/"
-fileName = "p1.txt"
+fileName = "test1.txt"
 DEBUG = False
 """
 The representation for an individual cell in the grid. Each cell contains its location, the value stored there, and a 
@@ -48,6 +48,7 @@ class Cell:
 
     def __eq__(self, other):
         return self.location[0] == other.location[0] and self.location[1] == other.location[1]
+
 
 """
 This is the representation of the entire Sudoku board. The grid exists as a 2d matrix of cells. The grid can then be 

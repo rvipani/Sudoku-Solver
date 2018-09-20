@@ -16,13 +16,13 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(0, g.getCell((0, 0)).getValue())
 
     def test_importing(self):
-        problemFile = "Puzzles/p1.txt"
+        problemFile = "Puzzles/Testing/test1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         self.assertEqual(7, g.getCell((0, 0)).getValue())
 
     def test_getRow(self):
-        problemFile = "Puzzles/p1.txt"
+        problemFile = "Puzzles/Testing/test1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         correctRow=[7, 6, 8, 5, 0, 2, 1, 4, 9]
@@ -30,7 +30,7 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(correctRow, g.cellsToVals(g.getRow((0, 4))))
 
     def test_getColumn(self):
-        problemFile = "Puzzles/p1.txt"
+        problemFile = "Puzzles/Testing/test1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         correctColumn = [7, 3, 4, 6, 0, 1, 5, 8, 9]
@@ -38,7 +38,7 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(correctColumn, g.cellsToVals(g.getColumn((5, 0))))
 
     def test_getBox(self):
-        problemFile = "Puzzles/p1.txt"
+        problemFile = "Puzzles/Testing/test1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         correctBox = [7, 6, 8, 3, 0, 0, 4, 0, 0]
@@ -46,7 +46,7 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(correctBox, g.cellsToVals(g.getBox((2, 2))))
 
     def test_setPossibles(self):
-        problemFile = "Puzzles/p1.txt"
+        problemFile = "Puzzles/Testing/test1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         g.setPossibles()
@@ -58,7 +58,7 @@ class BasicTests(unittest.TestCase):
 class SolvingTests(unittest.TestCase):
     # 3 Test cases
     def test_isUnsolved(self):
-        problemFile = "Puzzles/p1.txt"
+        problemFile = "Puzzles/Testing/test1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         s = Solver.Solver()
@@ -94,7 +94,7 @@ class SolvingTests(unittest.TestCase):
         self.assertTrue(s.isUnsolved(g))
 
     def test_nakedSingle(self):
-        problemFile = "Puzzles/p1.txt"
+        problemFile = "Puzzles/Testing/test1.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         g.setPossibles()
@@ -104,7 +104,7 @@ class SolvingTests(unittest.TestCase):
         self.assertEqual(3, cell.getValue())
 
     def test_hiddenSingles(self):
-        problemFile = "Puzzles/p2.txt"
+        problemFile = "Puzzles/Testing/test2.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         g.setPossibles()
@@ -114,24 +114,57 @@ class SolvingTests(unittest.TestCase):
         self.assertEqual(6, cell.getValue())
 
     def test_pointing(self):
-        problemFile = "Puzzles/p3.txt"
+        problemFile = "Puzzles/Testing/test3.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         g.setPossibles()
         s = Solver.Solver()
+        # Before
         self.assertEqual([3, 5], g.getCell((2, 6)).possibleValues)
         s.pointing(g)
+        # After
         self.assertEqual([3], g.getCell((2, 6)).possibleValues)
 
+        problemFile = "Puzzles/Testing/test4.txt"
+        g = Main.Grid()
+        g.setGrid(GameReader.getGridFromFile(problemFile))
+        g.setPossibles()
+        # Before
+        for cell in g.getRow((6, 0)):
+            if cell.location[1] != 4:
+                self.assertTrue(1 in cell.possibleValues)
+        s.pointing(g)
+        # After
+        for cell in g.getRow((6, 0)):
+            if cell.location[1] != 3 and cell.location[1] != 5:
+                self.assertTrue(1 not in cell.possibleValues)
+
+
     def test_claiming(self):
-        problemFile = "Puzzles/p4.txt"
+        problemFile = "Puzzles/Testing/test5.txt"
         g = Main.Grid()
         g.setGrid(GameReader.getGridFromFile(problemFile))
         g.setPossibles()
         s = Solver.Solver()
+        # Before
         self.assertEqual([4, 7], g.getCell((2, 1)).possibleValues)
         s.claiming(g)
+        # After
         self.assertEqual([4], g.getCell((2, 1)).possibleValues)
+
+        problemFile = "Puzzles/Testing/test6.txt"
+        g = Main.Grid()
+        g.setGrid(GameReader.getGridFromFile(problemFile))
+        g.setPossibles()
+        # Before
+        for cell in g.getBox((0, 3)):
+            if cell.location[1] != 5:
+                self.assertTrue(4 in cell.possibleValues)
+        s.claiming(g)
+        # After
+        for cell in g.getBox((0, 3)):
+            if cell.location[1] != 5:
+                self.assertTrue(4 not in cell.possibleValues)
 
 if __name__ == '__main__':
     unittest.main()
