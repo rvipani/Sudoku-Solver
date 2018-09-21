@@ -203,10 +203,11 @@ class SolvingTests(unittest.TestCase):
         # Before
         self.assertEqual([2, 7, 9], g.getCell((0, 8)).possibleValues)
         self.assertEqual([1, 2, 6], g.getCell((2, 2)).possibleValues)
-        s.nakedSubset()
+        s.nakedSubset(g)
+        #s.nakedSubsetHelper(g.getBox((0, 6)), 2)
         # After
         self.assertEqual([7, 9], g.getCell((0, 8)).possibleValues)
-        self.assertEqual([1, 6], g.getCell((2, 2)).possibleValues)
+        self.assertEqual([6], g.getCell((2, 2)).possibleValues)
 
 
 if __name__ == '__main__':

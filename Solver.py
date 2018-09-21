@@ -22,6 +22,7 @@ class Solver:
             self.hiddenSingle(grid)
             self.lockedCandidate(grid)
             self.hiddenSubset(grid)
+            self.nakedSubset(grid)
             counter += 1
             # if Main.DEBUG is True:
                 # grid.print()
@@ -248,7 +249,22 @@ class Solver:
 
     # Helper function for nakedSubset
     def nakedSubsetHelper(self, house, size):
-        pass
+        temp = []
+        for cell in house:
+            if cell.value == 0:
+                temp.append(cell)
+        combinations = itertools.combinations(temp, size)
+
+        for subset in combinations:
+            setofPVs = set()
+            for cell in subset:
+                setofPVs.update(set(cell.possibleValues))
+            if len(setofPVs) == size:
+                # Find all cells in the house not in the nakedSubset
+                for otherCell in (o for o in house if o not in subset):
+                    # Remove all values in the possible values of the othercell if there is overlap with the nakedSubset
+                    for value in (v for v in setofPVs if v in otherCell.possibleValues):
+                        otherCell.possibleValues.remove(value)
 
     # Helper function to determine if a set of cells all belong to the same row.
     def inSameRow(self, myList):
