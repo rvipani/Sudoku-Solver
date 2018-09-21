@@ -266,8 +266,10 @@ class Solver:
                     for value in (v for v in setofPVs if v in otherCell.possibleValues):
                         otherCell.possibleValues.remove(value)
 
-    def x_wing(self):
-        pass
+    def x_wing(self, grid):
+        rows = grid.getAllRows()
+        columns = grid.getAllColumns()
+        boxes = grid.getAllBoxes()
 
     # Helper function to determine if a set of cells all belong to the same row.
     def inSameRow(self, myList):

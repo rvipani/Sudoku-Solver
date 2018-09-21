@@ -94,6 +94,22 @@ class Grid:
         box = betterGrid[x:x+3, y:y+3]
         return list(box.flatten())
 
+    # Returns a list of all of the rows of the grid
+    def getAllRows(self):
+        return self
+
+    def getAllColumns(self):
+        temp = []
+        for i in range(9):
+            temp.append(self.getColumn((0, i)))
+        return temp
+
+    def getAllBoxes(self):
+        temp = []
+        for i in range(9):
+            temp.append(self.getBox((int(i / 3) * 3, (i % 3) * 3)))
+        return temp
+
     # Converts a list of cells to a list of
     def cellsToVals(self, cellList):
         tmp = []

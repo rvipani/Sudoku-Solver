@@ -224,7 +224,7 @@ class SolvingTests(unittest.TestCase):
         g.setup(problemFile)
         s = Solver.Solver()
         self.assertEqual([5, 8], g.getCell((3, 4)).possibleValues)
-        s.nakedSubset(g)
+        s.x_wing(g)
         # After
         # self.assertEqual([8], g.getCell((3, 4)).possibleValues)
 
