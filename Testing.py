@@ -214,11 +214,19 @@ class SolvingTests(unittest.TestCase):
         s = Solver.Solver()
         # Before
         self.assertEqual([3, 6, 7, 8], g.getCell((7, 6)).possibleValues)
-        # s.nakedSubset(g)
-        s.nakedSubsetHelper(g.getRow((7, 0)), 4)
+        s.nakedSubset(g)
         # After
         self.assertEqual([6, 7], g.getCell((7, 6)).possibleValues)
 
+    def test_x_wing(self):
+        problemFile = "Puzzles/Testing/test12.txt"
+        g = Main.Grid()
+        g.setup(problemFile)
+        s = Solver.Solver()
+        self.assertEqual([5, 8], g.getCell((3, 4)).possibleValues)
+        s.nakedSubset(g)
+        # After
+        # self.assertEqual([8], g.getCell((3, 4)).possibleValues)
 
 if __name__ == '__main__':
     unittest.main()

@@ -266,6 +266,9 @@ class Solver:
                     for value in (v for v in setofPVs if v in otherCell.possibleValues):
                         otherCell.possibleValues.remove(value)
 
+    def x_wing(self):
+        pass
+
     # Helper function to determine if a set of cells all belong to the same row.
     def inSameRow(self, myList):
         for i in range(len(myList) - 1):

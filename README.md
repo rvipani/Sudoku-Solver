@@ -28,5 +28,8 @@
     b. Naked Singles  
     c. Locked Candidates (Pointing and Claiming)  
     d. Hidden Subsets
-5. Create UI for importing Soduku puzzle and finished output
+    e. Naked Subsets
+    f. Fish (X wings and SwordFish)
+    g. Finned Fish
+5. Create UI for importing Soduku puzzle and displaying finished output
 6. Add image recognition support for easier importing. ????
