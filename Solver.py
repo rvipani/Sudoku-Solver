@@ -210,7 +210,7 @@ class Solver:
                 house = grid.getBox((int(i / 3) * 3, (i % 3) * 3))
                 self.hiddenSubsetHelper(house, size)
 
-    #Helper function for hiddenSubset
+    # Helper function for hiddenSubset
     def hiddenSubsetHelper(self, house, size):
         # pvSet is the set of values that are still possible in that house.
         pvSet = list(range(1, 10))
@@ -230,6 +230,25 @@ class Solver:
             if len(temp) == size:
                 for cell in temp:
                     cell.possibleValues = [value for value in cell.possibleValues if value in subset]
+
+    def nakedSubset(self, grid):
+        for size in range(2, 5):
+            # Iterate through Rows
+            for i in range(9):
+                house = grid.getRow((i, 0))
+                self.nakedSubsetHelper(house, size)
+            # Iterate through Columns
+            for i in range(9):
+                house = grid.getColumn((0, i))
+                self.nakedSubsetHelper(house, size)
+            # Iterate through Boxes
+            for i in range(9):
+                house = grid.getBox((int(i / 3) * 3, (i % 3) * 3))
+                self.nakedSubsetHelper(house, size)
+
+    # Helper function for nakedSubset
+    def nakedSubsetHelper(self, house, size):
+        pass
 
     # Helper function to determine if a set of cells all belong to the same row.
     def inSameRow(self, myList):

@@ -195,6 +195,19 @@ class SolvingTests(unittest.TestCase):
         self.assertEqual([4, 5, 8], g.getCell((6, 4)).possibleValues)
         self.assertEqual([2, 4, 5], g.getCell((7, 4)).possibleValues)
 
+    def test_nakedSubsets(self):
+        problemFile = "Puzzles/Testing/test10.txt"
+        g = Main.Grid()
+        g.setup(problemFile)
+        s = Solver.Solver()
+        # Before
+        self.assertEqual([2, 7, 9], g.getCell((0, 8)).possibleValues)
+        self.assertEqual([1, 2, 6], g.getCell((2, 2)).possibleValues)
+        s.nakedSubset()
+        # After
+        self.assertEqual([7, 9], g.getCell((0, 8)).possibleValues)
+        self.assertEqual([1, 6], g.getCell((2, 2)).possibleValues)
+
 
 if __name__ == '__main__':
     unittest.main()
