@@ -204,10 +204,20 @@ class SolvingTests(unittest.TestCase):
         self.assertEqual([2, 7, 9], g.getCell((0, 8)).possibleValues)
         self.assertEqual([1, 2, 6], g.getCell((2, 2)).possibleValues)
         s.nakedSubset(g)
-        #s.nakedSubsetHelper(g.getBox((0, 6)), 2)
         # After
         self.assertEqual([7, 9], g.getCell((0, 8)).possibleValues)
         self.assertEqual([6], g.getCell((2, 2)).possibleValues)
+
+        problemFile = "Puzzles/Testing/test11.txt"
+        g = Main.Grid()
+        g.setup(problemFile)
+        s = Solver.Solver()
+        # Before
+        self.assertEqual([3, 6, 7, 8], g.getCell((7, 6)).possibleValues)
+        # s.nakedSubset(g)
+        s.nakedSubsetHelper(g.getRow((7, 0)), 4)
+        # After
+        self.assertEqual([6, 7], g.getCell((7, 6)).possibleValues)
 
 
 if __name__ == '__main__':
