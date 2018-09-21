@@ -5,7 +5,7 @@ solve the grid using all available strategies.
 """
 import Main
 import numpy as np
-
+import itertools
 
 """
 Solver is used to perform all the actual solving of the puzzle. Solving loops repeatedly on the grid, using each of 
@@ -21,9 +21,10 @@ class Solver:
             self.nakedSingle(grid)
             self.hiddenSingle(grid)
             self.lockedCandidate(grid)
+            self.hiddenSubset(grid)
             counter += 1
-            if Main.DEBUG is True:
-                grid.print()
+            # if Main.DEBUG is True:
+                # grid.print()
         if self.isUnsolved(grid):
             print("Unable to solve this puzzle")
         else:
@@ -122,6 +123,7 @@ class Solver:
     def lockedCandidate(self, grid):
         self.pointing(grid)
         self.claiming(grid)
+
     def pointing(self, grid):
         # Handle Pointing first by iterating through box, then check each digit 1-9 in each box to see if the box
         # has any pointing
@@ -194,7 +196,40 @@ class Solver:
             grid.print()
 
     def hiddenSubset(self, grid):
-        pass
+        for size in range(2, 5):
+            # Iterate through Rows
+            for i in range(9):
+                house = grid.getRow((i, 0))
+                self.hiddenSubsetHelper(house, size)
+            # Iterate through Columns
+            for i in range(9):
+                house = grid.getColumn((0, i))
+                self.hiddenSubsetHelper(house, size)
+            # Iterate through Boxes
+            for i in range(9):
+                house = grid.getBox((int(i / 3) * 3, (i % 3) * 3))
+                self.hiddenSubsetHelper(house, size)
+
+    #Helper function for hiddenSubset
+    def hiddenSubsetHelper(self, house, size):
+        # pvSet is the set of values that are still possible in that house.
+        pvSet = list(range(1, 10))
+        for cell in house:
+            if cell.value in pvSet:
+                pvSet.remove(cell.value)
+
+        combinations = itertools.combinations(pvSet, size)
+        for subset in combinations:
+            temp = []
+            # Find the cells with any of the values in that subset
+            for cell in house:
+                pv = cell.possibleValues
+                # Check if this cells pvs include anything in the subset
+                if len([value for value in pv if value in subset]) > 0:
+                    temp.append(cell)
+            if len(temp) == size:
+                for cell in temp:
+                    cell.possibleValues = [value for value in cell.possibleValues if value in subset]
 
     # Helper function to determine if a set of cells all belong to the same row.
     def inSameRow(self, myList):

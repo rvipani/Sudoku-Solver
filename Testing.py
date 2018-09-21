@@ -96,8 +96,7 @@ class SolvingTests(unittest.TestCase):
     def test_nakedSingle(self):
         problemFile = "Puzzles/Testing/test1.txt"
         g = Main.Grid()
-        g.setGrid(GameReader.getGridFromFile(problemFile))
-        g.setPossibles()
+        g.setup(problemFile)
         s = Solver.Solver()
         s.nakedSingle(g)
         cell = g.getCell((0, 4))
@@ -106,8 +105,7 @@ class SolvingTests(unittest.TestCase):
     def test_hiddenSingles(self):
         problemFile = "Puzzles/Testing/test2.txt"
         g = Main.Grid()
-        g.setGrid(GameReader.getGridFromFile(problemFile))
-        g.setPossibles()
+        g.setup(problemFile)
         s = Solver.Solver()
         s.hiddenSingle(g)
         cell = g.getCell((2, 3))
@@ -116,8 +114,7 @@ class SolvingTests(unittest.TestCase):
     def test_pointing(self):
         problemFile = "Puzzles/Testing/test3.txt"
         g = Main.Grid()
-        g.setGrid(GameReader.getGridFromFile(problemFile))
-        g.setPossibles()
+        g.setup(problemFile)
         s = Solver.Solver()
         # Before
         self.assertEqual([3, 5], g.getCell((2, 6)).possibleValues)
@@ -127,8 +124,7 @@ class SolvingTests(unittest.TestCase):
 
         problemFile = "Puzzles/Testing/test4.txt"
         g = Main.Grid()
-        g.setGrid(GameReader.getGridFromFile(problemFile))
-        g.setPossibles()
+        g.setup(problemFile)
         # Before
         for cell in g.getRow((6, 0)):
             if cell.location[1] != 4:
@@ -143,8 +139,7 @@ class SolvingTests(unittest.TestCase):
     def test_claiming(self):
         problemFile = "Puzzles/Testing/test5.txt"
         g = Main.Grid()
-        g.setGrid(GameReader.getGridFromFile(problemFile))
-        g.setPossibles()
+        g.setup(problemFile)
         s = Solver.Solver()
         # Before
         self.assertEqual([4, 7], g.getCell((2, 1)).possibleValues)
@@ -154,8 +149,7 @@ class SolvingTests(unittest.TestCase):
 
         problemFile = "Puzzles/Testing/test6.txt"
         g = Main.Grid()
-        g.setGrid(GameReader.getGridFromFile(problemFile))
-        g.setPossibles()
+        g.setup(problemFile)
         # Before
         for cell in g.getBox((0, 3)):
             if cell.location[1] != 5:
@@ -165,6 +159,42 @@ class SolvingTests(unittest.TestCase):
         for cell in g.getBox((0, 3)):
             if cell.location[1] != 5:
                 self.assertTrue(4 not in cell.possibleValues)
+
+    def test_hiddenSubset(self):
+        problemFile = "Puzzles/Testing/test7.txt"
+        g = Main.Grid()
+        g.setup(problemFile)
+        s = Solver.Solver()
+        # Before
+        self.assertEqual([1, 6, 9], g.getCell((4, 8)).possibleValues)
+        s.hiddenSubsetHelper(g.getColumn((0, 8)), 2)
+        # After
+        self.assertEqual([1, 9], g.getCell((4, 8)).possibleValues)
+
+        problemFile = "Puzzles/Testing/test8.txt"
+        g = Main.Grid()
+        g.setup(problemFile)
+        s = Solver.Solver()
+        # Before
+        self.assertEqual([1, 2, 4, 5], g.getCell((8, 1)).possibleValues)
+        self.assertEqual([2, 5, 6], g.getCell((8, 2)).possibleValues)
+        s.hiddenSubset(g)
+        # After
+        self.assertEqual([2, 4, 5], g.getCell((8, 1)).possibleValues)
+        self.assertEqual([2, 5], g.getCell((8, 2)).possibleValues)
+
+        problemFile = "Puzzles/Testing/test9.txt"
+        g = Main.Grid()
+        g.setup(problemFile)
+        s = Solver.Solver()
+        # Before
+        self.assertEqual([3, 4, 5, 6, 8], g.getCell((6, 4)).possibleValues)
+        self.assertEqual([2, 4, 5, 6], g.getCell((7, 4)).possibleValues)
+        s.hiddenSubset(g)
+        # After
+        self.assertEqual([4, 5, 8], g.getCell((6, 4)).possibleValues)
+        self.assertEqual([2, 4, 5], g.getCell((7, 4)).possibleValues)
+
 
 if __name__ == '__main__':
     unittest.main()

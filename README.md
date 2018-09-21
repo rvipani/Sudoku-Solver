@@ -3,7 +3,7 @@
 ### A Solver for Sudoku puzzles.
 ### Author Rushan Vipani
 ### Project Created 8/15/2018
-### Last Update 9/19/2018
+### Last Update 9/20/2018
 
 ### Steps
 
@@ -26,7 +26,7 @@
     Include support for following solving strategies:   
     a. Hidden Singles  
     b. Naked Singles  
-    c. Locked Candidates(Pointing and Claiming)  
+    c. Locked Candidates (Pointing and Claiming)  
     d. Hidden Subsets
 5. Create UI for importing Soduku puzzle and finished output
 6. Add image recognition support for easier importing. ????

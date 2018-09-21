@@ -61,6 +61,10 @@ class Grid:
     def __init__(self):
         self.grid = [[Cell((x, y)) for y in range(9)]for x in range(9)]
 
+    def setup(self, problemFile):
+        self.setGrid(GameReader.getGridFromFile(problemFile))
+        self.setPossibles()
+
     # Takes a location as a tuple in the form of (0-8,0-8) and returns the corresponding Cell
     def getCell(self, location):
         if 0 <= location[0] <= 8 and 0 <= location[1] <= 8:
