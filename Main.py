@@ -96,7 +96,7 @@ class Grid:
 
     # Returns a list of all of the rows of the grid
     def getAllRows(self):
-        return self
+        return self.grid
 
     # Returns a list of all of the columns of the grid
     def getAllColumns(self):
@@ -111,7 +111,6 @@ class Grid:
         for i in range(9):
             temp.append(self.getBox((int(i / 3) * 3, (i % 3) * 3)))
         return temp
-
 
     # Converts a list of cells to a list of values
     def cellsToVals(self, cellList):

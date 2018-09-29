@@ -4,7 +4,6 @@ Solver contains all of the strategies and algorithms used to solve a Sudoku puzz
 solve the grid using all available strategies.
 """
 import Main
-import numpy as np
 import itertools
 
 """
@@ -23,9 +22,10 @@ class Solver:
             self.lockedCandidate(grid)
             self.hiddenSubset(grid)
             self.nakedSubset(grid)
+            self.x_wing(grid)
+            self.swordfish(grid)
             counter += 1
-            # if Main.DEBUG is True:
-                # grid.print()
+
         if self.isUnsolved(grid):
             print("Unable to solve this puzzle")
         else:
@@ -61,16 +61,19 @@ class Solver:
         return len(mylist) != len(set(mylist))
 
     def nakedSingle(self, grid):
+        editFlag = False
         for i in range(9):
             for j in range(9):
                 cell = grid.getCell((i, j))
                 if len(cell.possibleValues) == 1:
-                    # print((i, j), cell.possibleValues[0])
                     grid.setCell((i, j), (cell.possibleValues[0]))
-        if Main.DEBUG is True:
+                    editFlag = True
+        if Main.DEBUG is True and editFlag is True:
             grid.print()
+        return editFlag
 
     def hiddenSingle(self, grid):
+        editFlag = False
         for i in range(9):
             for j in range(9):
                 cell = grid.getCell((i, j))
@@ -90,6 +93,7 @@ class Solver:
                                 flag = True
                                 break
                     if flag is False:
+                        editFlag = True
                         grid.setCell((i, j), value)
                         break
 
@@ -103,6 +107,7 @@ class Solver:
                                 flag = True
                                 break
                     if flag is False:
+                        editFlag = True
                         grid.setCell((i, j), value)
                         break
 
@@ -116,16 +121,19 @@ class Solver:
                                 flag = True
                                 break
                     if flag is False:
+                        editFlag = True
                         grid.setCell((i, j), value)
                         break
-        if Main.DEBUG is True:
+        if Main.DEBUG is True and editFlag is True:
             grid.print()
+        return editFlag
 
     def lockedCandidate(self, grid):
         self.pointing(grid)
         self.claiming(grid)
 
     def pointing(self, grid):
+        editFlag = False
         # Handle Pointing first by iterating through box, then check each digit 1-9 in each box to see if the box
         # has any pointing
         for i in range(9):
@@ -145,6 +153,7 @@ class Solver:
                     for cell in row:
                         pvs = cell.possibleValues
                         if cell not in box and digit in pvs:
+                            editFlag = True
                             pvs.remove(digit)
 
                 # Check if each cell with that digit is in the same column
@@ -154,11 +163,14 @@ class Solver:
                     for cell in column:
                         pvs = cell.possibleValues
                         if cell not in box and digit in pvs:
+                            editFlag = True
                             pvs.remove(digit)
-        if Main.DEBUG is True:
+        if Main.DEBUG is True and editFlag is True:
             grid.print()
+        return editFlag
 
     def claiming(self, grid):
+        editFlag = False
         # Handle Claiming checking rows first
         for i in range(9):
             house = grid.getRow((i, 0))
@@ -175,6 +187,7 @@ class Solver:
                     for cell in box:
                         pvs = cell.possibleValues
                         if cell not in house and digit in pvs:
+                            editFlag = True
                             pvs.remove(digit)
         # Handle Claiming checking columns next
         for i in range(9):
@@ -192,9 +205,11 @@ class Solver:
                     for cell in box:
                         pvs = cell.possibleValues
                         if cell not in house and digit in pvs:
+                            editFlag = True
                             pvs.remove(digit)
-        if Main.DEBUG is True:
+        if Main.DEBUG is True and editFlag is True:
             grid.print()
+        return editFlag
 
     def hiddenSubset(self, grid):
         for size in range(2, 5):
@@ -213,6 +228,7 @@ class Solver:
 
     # Helper function for hiddenSubset
     def hiddenSubsetHelper(self, house, size):
+        editFlag = False
         # pvSet is the set of values that are still possible in that house.
         pvSet = list(range(1, 10))
         for cell in house:
@@ -230,7 +246,9 @@ class Solver:
                     temp.append(cell)
             if len(temp) == size:
                 for cell in temp:
+                    editFlag = True
                     cell.possibleValues = [value for value in cell.possibleValues if value in subset]
+        return editFlag
 
     def nakedSubset(self, grid):
         for size in range(2, 5):
@@ -249,6 +267,7 @@ class Solver:
 
     # Helper function for nakedSubset
     def nakedSubsetHelper(self, house, size):
+        editFlag = False
         temp = []
         for cell in house:
             if cell.value == 0:
@@ -264,16 +283,17 @@ class Solver:
                 for otherCell in (o for o in house if o not in subset):
                     # Remove all values in the possible values of the othercell if there is overlap with the nakedSubset
                     for value in (v for v in setofPVs if v in otherCell.possibleValues):
+                        editFlag = True
                         otherCell.possibleValues.remove(value)
+        return editFlag
 
     def x_wing(self, grid):
         rows = grid.getAllRows()
         columns = grid.getAllColumns()
 
         row_combs = itertools.combinations(rows, 2)
-        col_combs = itertools.combinations(columns, 2)
-
         for row_comb in row_combs:
+            col_combs = itertools.combinations(columns, 2)
             for col_comb in col_combs:
                 self.fish_helper(row_comb, col_comb)
                 self.fish_helper(col_comb, row_comb)
@@ -292,6 +312,7 @@ class Solver:
 
     # Helper function for fish
     def fish_helper(self, base_sets, cover_sets):
+        editFlag = False
         # Find the cells that are the intersection between the base and cover sets
         intersections = []
         for base_set in base_sets:
@@ -322,7 +343,9 @@ class Solver:
                 for cover_set in cover_sets:
                     for cell in cover_set:
                         if cell not in intersections and digit in cell.possibleValues:
+                            editFlag = True
                             cell.possibleValues.remove(digit)
+        return editFlag
 
     # Helper function to determine if a set of cells all belong to the same row.
     def inSameRow(self, myList):
