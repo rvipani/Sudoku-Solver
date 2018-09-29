@@ -278,6 +278,18 @@ class Solver:
                 self.fish_helper(row_comb, col_comb)
                 self.fish_helper(col_comb, row_comb)
 
+    def swordfish(self, grid):
+        rows = grid.getAllRows()
+        columns = grid.getAllColumns()
+
+        row_combs = itertools.combinations(rows, 3)
+        col_combs = itertools.combinations(columns, 3)
+
+        for row_comb in row_combs:
+            for col_comb in col_combs:
+                self.fish_helper(row_comb, col_comb)
+                self.fish_helper(col_comb, row_comb)
+
     # Helper function for fish
     def fish_helper(self, base_sets, cover_sets):
         # Find the cells that are the intersection between the base and cover sets
