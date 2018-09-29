@@ -98,19 +98,22 @@ class Grid:
     def getAllRows(self):
         return self
 
+    # Returns a list of all of the columns of the grid
     def getAllColumns(self):
         temp = []
         for i in range(9):
             temp.append(self.getColumn((0, i)))
         return temp
 
+    # Returns a list of all of the boxes of the grid
     def getAllBoxes(self):
         temp = []
         for i in range(9):
             temp.append(self.getBox((int(i / 3) * 3, (i % 3) * 3)))
         return temp
 
-    # Converts a list of cells to a list of
+
+    # Converts a list of cells to a list of values
     def cellsToVals(self, cellList):
         tmp = []
         for cell in cellList:
@@ -122,6 +125,7 @@ class Grid:
         tempgrid=[[self.getCell((y, x)).getValue() for x in range(9)]for y in range(9)]
         return tempgrid
 
+    # Returns
     # Sets the default grid based on the given 2d array
     def setGrid(self, matrix):
         for i in range(9):

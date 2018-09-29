@@ -224,9 +224,12 @@ class SolvingTests(unittest.TestCase):
         g.setup(problemFile)
         s = Solver.Solver()
         self.assertEqual([5, 8], g.getCell((3, 4)).possibleValues)
-        s.x_wing(g)
+        base_sets = [g.getRow((1, 0)), g.getRow((4, 0))]
+        cover_sets = [g.getColumn((0, 4)), g.getColumn((0, 7))]
+        s.fish_helper(base_sets, cover_sets)
         # After
-        # self.assertEqual([8], g.getCell((3, 4)).possibleValues)
+        self.assertEqual([8], g.getCell((3, 4)).possibleValues)
+
 
 if __name__ == '__main__':
     unittest.main()

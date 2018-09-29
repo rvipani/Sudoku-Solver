@@ -269,7 +269,48 @@ class Solver:
     def x_wing(self, grid):
         rows = grid.getAllRows()
         columns = grid.getAllColumns()
-        boxes = grid.getAllBoxes()
+
+        row_combs = itertools.combinations(rows, 2)
+        col_combs = itertools.combinations(columns, 2)
+
+        for row_comb in row_combs:
+            for col_comb in col_combs:
+                self.fish_helper(row_comb, col_comb)
+                self.fish_helper(col_comb, row_comb)
+
+    # Helper function for fish
+    def fish_helper(self, base_sets, cover_sets):
+        # Find the cells that are the intersection between the base and cover sets
+        intersections = []
+        for base_set in base_sets:
+            for cover_set in cover_sets:
+                intersections.append(self.intersection(base_set, cover_set))
+
+        fish_digits = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+        for cell in intersections:
+            # possible_fish_digits = self.remainingDigits(base_set)
+            fish_digits = fish_digits.intersection(set(cell.possibleValues))
+
+        for digit in fish_digits:
+            # Find every cell that contains that digit in the base sets and find the intersection cells
+            cells_with_digit = []
+            for base_set in base_sets:
+                for cell in base_set:
+                    if digit in cell.possibleValues:
+                        cells_with_digit.append(cell)
+
+            # Check if the all the candidates of the digit in the base sets are contained in the cover sets
+            flag = True
+            for cell in cells_with_digit:
+                if cell not in intersections:
+                    flag = False
+                    break
+            if flag is True:
+                # If so, we can remove all instances if that digit from the cover sets.
+                for cover_set in cover_sets:
+                    for cell in cover_set:
+                        if cell not in intersections and digit in cell.possibleValues:
+                            cell.possibleValues.remove(digit)
 
     # Helper function to determine if a set of cells all belong to the same row.
     def inSameRow(self, myList):
@@ -300,6 +341,18 @@ class Solver:
                 return False
         return True
 
+    # Returns the first cell that is an intersection of two cross houses.
+    def intersection(self, base_set, cover_set):
+        for cell in (cell for cell in base_set if cell in cover_set):
+            return cell
+
+    # Returns a list of possible digits remaining in the house
+    def remainingDigits(self, house):
+        possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        for cell in house:
+            if cell.value in possibles:
+                possibles.remove(cell.value)
+        return possibles
 
 """
 DuplicateError error is used if the solver accidentally ever puts a number twice in the same row, column or box.
